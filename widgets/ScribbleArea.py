@@ -1,0 +1,17 @@
+# -*- coding: utf-8 -*-
+
+from PyQt4.QtGui import *
+from PyQt4.QtCore import *
+
+
+class ScribbleArea(QWidget):
+    def __init__(self, parent=None):
+        super(ScribbleArea, self).__init__(parent)
+        self.setAttribute(Qt.WA_StaticContents)
+        self.modified = False
+        self.scribbling = False
+        self.currentPenWidth = 1
+        self.currentPenColor = Qt.black
+        self.image = None
+        self.lastPoint = None
+
