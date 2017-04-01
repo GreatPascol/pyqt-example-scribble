@@ -15,3 +15,9 @@ class ScribbleArea(QWidget):
         self.image = None
         self.lastPoint = None
 
+    def paintEvent(self, QPaintEvent):
+        if self.image is not None:
+            painter = QPainter(self)
+            dirtyRect = QPaintEvent.rect()
+            painter.drawImage(dirtyRect, self.image, dirtyRect)
+
