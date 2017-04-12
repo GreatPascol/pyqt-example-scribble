@@ -37,9 +37,9 @@ class ScribbleArea(QWidget):
 
     def resizeEvent(self, event):
         if self.width() > self.image.width() or self.height() > self.image.height():
-            newWidth = max(self.width() + 128, self.image.width())
-            newHeight = max(self.height() + 128, self.image.height())
-            self.image = self.resizeImage(self.image, QSize(newWidth, newHeight))
+            newW = max(self.width() + 128, self.image.width())  # to avoid always resize the image when resize widget
+            newH = max(self.height() + 128, self.image.height())
+            self.image = self.resizeImage(self.image, QSize(newW, newH))
             self.update()
         super(ScribbleArea, self).resizeEvent(event)
 
@@ -60,8 +60,7 @@ class ScribbleArea(QWidget):
         if not loadedImage.load(fileName):
             return False
         newSize = loadedImage.size().expandedTo(self.size())
-        loadedImage = self.resizeImage(loadedImage, newSize)
-        self.image = loadedImage
+        self.image = self.resizeImage(loadedImage, newSize)
         self.modified = True
         self.update()
         return True
@@ -100,6 +99,12 @@ class ScribbleArea(QWidget):
 
     def isModified(self):
         return self.modified
+
+    def getPenColor(self):
+        return self.currentPenColor
+
+    def getPenWidth(self):
+        return self.currentPenWidth
 
 
 if __name__ == '__main__':

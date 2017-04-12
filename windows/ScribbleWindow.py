@@ -23,14 +23,11 @@ class ScribbleWindow(QMainWindow):
         self.clearScreenAct = None
         self.aboutAct = None
 
-
-        self.initUI()
-
-    def initUI(self):
         self.setCentralWidget(self.scribbleArea)
         self.createActions()
         self.createMenus()
         self.setWindowTitle(u"Scribble")
+        self.setWindowIcon(QIcon('../img/icon.png'))
         self.resize(500, 500)
 
     def closeEvent(self, event):
@@ -77,12 +74,12 @@ class ScribbleWindow(QMainWindow):
                           u"to repaint widgets.</p>")
 
     def createActions(self):
-        self.openAct = QAction(u"&Open...", self)
+        self.openAct = QAction("&Open...", self)
         self.openAct.setShortcut(QKeySequence.Open)
         self.openAct.triggered.connect(self.open)
 
         for fmt in QImageWriter.supportedImageFormats():
-            tmpAction = QAction("&%s..." % QString(fmt).toUpper(), self)
+            tmpAction = QAction("%s..." % QString(fmt).toUpper(), self)
             tmpAction.setData(fmt)
             tmpAction.triggered.connect(self.save)
             self.saveAsActs.append(tmpAction)
@@ -90,40 +87,40 @@ class ScribbleWindow(QMainWindow):
         self.printAct = QAction("&Print...", self)
         self.printAct.triggered.connect(self.scribbleArea.printImage)
 
-        self.exitAct = QAction("&Exit...", self)
+        self.exitAct = QAction("E&xit", self)
         self.exitAct.setShortcut(QKeySequence.Quit)
         self.exitAct.triggered.connect(self.close)
 
         self.penColorAct = QAction("&Pen Color...", self)
         self.penColorAct.triggered.connect(self.penColor)
-        self.penWidthAct = QAction("&Pen Width...", self)
+        self.penWidthAct = QAction("Pen &Width...", self)
         self.penWidthAct.triggered.connect(self.penWidth)
 
-        self.clearScreenAct = QAction("&Clear Screen...", self)
+        self.clearScreenAct = QAction("&Clear Screen", self)
         self.clearScreenAct.setShortcut("Ctrl+L")
         self.clearScreenAct.triggered.connect(self.scribbleArea.clearImage)
-        self.aboutAct = QAction("&About...", self)
+        self.aboutAct = QAction("&About", self)
         self.aboutAct.triggered.connect(self.about)
 
     def createMenus(self):
-        self.saveAsMenu = QMenu("Save As", self)
+        self.saveAsMenu = QMenu("&Save As", self)
         for action in self.saveAsActs:
             self.saveAsMenu.addAction(action)
 
-        self.fileMenu = QMenu("File", self)
+        self.fileMenu = QMenu("&File", self)
         self.fileMenu.addAction(self.openAct);
         self.fileMenu.addMenu(self.saveAsMenu)
         self.fileMenu.addAction(self.printAct)
         self.fileMenu.addSeparator()
         self.fileMenu.addAction(self.exitAct)
 
-        self.optionMenu = QMenu("Options", self)
+        self.optionMenu = QMenu("&Options", self)
         self.optionMenu.addAction(self.penColorAct)
         self.optionMenu.addAction(self.penWidthAct)
         self.optionMenu.addSeparator()
         self.optionMenu.addAction(self.clearScreenAct)
 
-        self.helpMenu = QMenu("Help", self)
+        self.helpMenu = QMenu("&Help", self)
         self.helpMenu.addAction(self.aboutAct)
 
         self.menuBar().addMenu(self.fileMenu)
